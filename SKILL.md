@@ -29,7 +29,33 @@ Anti-pattern to avoid: "intent-anchored bidirectional traceability matrix betwee
 
 Test your output by asking: *Could my parent, or a junior who joined yesterday, retell the gist?* If no, simplify.
 
-### Red flags — stop and rewrite
+## Bite-Size Delivery Rule — also applies to ALL outputs
+
+If the reader has to scroll more than one screen to find the next decision they care about, the skill failed. Pair every output with **stage delivery**: ship the smallest useful chunk first, then wait for the reader to ask for more.
+
+The five rules (memorize):
+
+1. **One response = one chunk.** Default chunk size = a 30-second TL;DR (≤3 sentences) plus *one* anchored citation. Never dump multiple Levels in a single response unless the user explicitly says "전부 한 번에" / "give me everything".
+2. **TL;DR first, every time.** Even within a single Level's output, the first 3 lines must be the conclusion a reader could act on without reading the rest. Detail follows the TL;DR; never precedes it.
+3. **End every chunk with a "next options" menu — 2 to 4 choices, max.** Example: "더 볼 수 있는 것: (A) 진입점 코드 한 함수만, (B) 데이터 흐름 다이어그램, (C) 의심 라인 핀포인트, (D) 그만". Make options concrete, name an artifact each one produces, and never make the user guess what's behind option B.
+4. **Cap chunk size by surface.** Per chunk: ≤5 headings, ≤8 table rows, ≤1 fenced code block ≤30 lines. If you need more, split into a "Part 1 of N" with the menu pointing to Part 2.
+5. **Park the rest, don't summarize it.** When you split, do not write "and there are 14 more rows below" — write "remaining 14 rows live behind option (A): say 'A' to load". Summaries of unread content waste the reader's attention.
+
+Anti-pattern to avoid: a single response containing Level 1 + Level 2 table + Level 3 decision matrix + a "what to do next" appendix. Rewrite as: Level 1 TL;DR in response #1, the user picks (A) Walk or (B) Probe in response #2, only that one expands.
+
+Test your output by asking: *Can a reader who only reads my first 3 lines and the menu still make the right next move?* If no, the TL;DR is too vague or the menu is missing.
+
+### Red flags — stop and rewrite (bite-size)
+
+| Thought | What it really means | Fix |
+|---|---|---|
+| "The reader will scroll to find what they need." | They will not. They will leave. | Hoist the one thing they need into the top 3 lines. |
+| "I'll dump everything so they have it." | You have replaced their judgment with your dump. | Park detail behind a menu option, ship the TL;DR. |
+| "The next options menu is obvious." | If it were obvious, you'd have written it already. Write it. | Write 2–4 concrete option labels with the artifact each yields. |
+| "Splitting feels less helpful." | Splitting is the help. One chunk = one decision. | Ship the chunk; trust the menu to deliver the rest. |
+| "It's only 12 rows over the cap." | Caps exist because attention is finite, not because 12 is magic. | Split at the cap, link the rest. |
+
+### Red flags — stop and rewrite (plain-speech)
 
 If you catch yourself thinking any of these while drafting an output, the Plain-Speech Rule is about to be violated. Stop, simplify, then resume.
 
@@ -84,34 +110,46 @@ Forward is the default. Use Reverse when spec is sparse, drifted, or absent.
 Stop at the level your task actually needs. Going deeper is not virtue.
 
 > **All Level outputs MUST start with an everyday analogy + close with a 1-minute summary block.** This is non-negotiable — see Plain-Speech Rule.
+>
+> **Default delivery is TL;DR-first, one Level per response, with a next-options menu at the end.** Do not chain Levels in a single message unless the user explicitly asks for it — see Bite-Size Delivery Rule.
+
+Each Level below ships in 3 stages — A (TL;DR), B (full artifact on request), C (linked deep dives). Stage A is the default response; B and C only fire when the menu picks them.
 
 ### Level 1 — Map (≤5 min, beginner)
 Goal: one paragraph + one entry function.
 1. Read only the §0 / overview / README of the canonical intent doc.
 2. Identify the **one** user story most central to the feature.
 3. Locate **one** entry point in code (route handler, CLI command, top-level fn).
-4. Output: an opening analogy (1 line: "This feature is like ___") + a 3-line plain summary using **no unexpanded jargon** + `entry: <file:line>` + 1-minute summary block.
+- **Stage A (default)**: analogy line + 3-line plain summary + `entry: <file:line>` + menu (e.g. "(A) trace the happy path  (B) jump to suspected bug lines  (C) stop"). Stop here.
+- **Stage B (on request)**: 1-minute summary block expanded with user story, key actors, scope boundary.
+- **Stage C (on request)**: link to spec section + entry function source excerpt.
 
 ### Level 2 — Walk (≤30 min, intermediate)
 Goal: one happy-path trace with 5–10 anchored stops.
 1. Pick the Story from Level 1.
 2. Trace it end-to-end in code.
 3. Fill the side-by-side table (see `templates/sidebyside.md`) — every row must have a populated "What this means (plain)" cell.
-4. Output: `walk.md` opening with the analogy, the table, and closing with a 1-minute summary.
+- **Stage A (default)**: 3-line trace summary + first 3 rows of the table (entry, midpoint, exit) + menu ("(A) full 5–10 row table  (B) error path  (C) data shape  (D) stop"). Stop here.
+- **Stage B (on request)**: the full table, capped at 8 rows per chunk; split if longer with a "Part 2 of N" menu.
+- **Stage C (on request)**: error paths, alternative flows, or specific row deep-dives one at a time.
 
 ### Level 3 — Probe (≤2 h, advanced)
 Goal: every decision → enforcement.
 1. Read all `Clarifications` / ADRs / `research.md` Phase-0 sections.
 2. For each decision, find the code that enforces it and the test that protects it.
 3. Record the **rejected alternatives** and why.
-4. Output: `decisions.md` matrix where each decision is stated *first* as a plain "We chose X over Y because Z" sentence, then with citations. Close with a 1-minute summary.
+- **Stage A (default)**: list the 3 decisions most likely to surprise the reader, one plain sentence each + menu ("(A) full decision matrix  (B) one decision's enforcement code  (C) rejected alternatives  (D) stop"). Stop here.
+- **Stage B (on request)**: `decisions.md` matrix in chunks of ≤8 rows.
+- **Stage C (on request)**: per-decision deep dive with citations and rejected alternatives.
 
 ### Level 4 — Master (deep, expert)
 Goal: invariants and seams.
 1. Identify domain invariants (Constitution, contracts, schemas, type signatures).
 2. Find their guardians (validators, schema checks, runtime asserts, property tests).
 3. Map seams between bounded contexts (where one module's invariants end and another's begin).
-4. Output: `invariants.md` + seam diagram. Each invariant must be stated in plain language ("the system never lets X happen because…") before the technical form. Close with a 1-minute summary.
+- **Stage A (default)**: name the top 3 invariants in plain language + one-line guardian for each + menu ("(A) full invariant map  (B) seam diagram  (C) blast-radius of changing invariant X  (D) stop"). Stop here.
+- **Stage B (on request)**: `invariants.md` with guardians, one section at a time.
+- **Stage C (on request)**: seam diagram + cross-context contract details on the specific seam asked for.
 
 ## Quick Reference
 
@@ -138,6 +176,8 @@ Full detection patterns (forward + reverse direction) in `references/finding-int
 | Going to Level 4 immediately | Burn out, miss the why | Stop at the level your task needs |
 | Ignoring "Why-not" | Repeat rejected designs | Pull rejected alternatives from ADR/Clarifications |
 | Treating AI-generated code as spec | Codify hallucinations | Spec wins; flag drift, don't absorb it |
+| Dumping all Levels in one response | Reader scrolls past, picks nothing, leaves | Stage A only, then menu — see Bite-Size Delivery Rule |
+| Writing a 30-row table in a single chunk | Eyes glaze, nothing is read | Cap 8 rows per chunk, park the rest behind a menu option |
 
 ## Diagnose Spec ↔ Code Drift
 
@@ -167,3 +207,4 @@ Three scenarios to verify the skill works for you. If you (or another agent) can
 2. **PR-review scenario.** Given an AI-generated PR with no description, run the **Reverse** direction to produce a Level-2 Walk citing which spec sections it claims to implement. Pass if you flag at least one drift.
 3. **Change-impact scenario.** Given a request to alter behavior X, produce a Level-4 invariant map listing every guardian that would need to be updated. Pass if you locate every test that would change colour.
 4. **Plain-speech scenario.** Hand any artifact this skill produced to someone outside the project (a sibling, a non-engineer friend, a brand-new hire on day one). Pass if they can paraphrase the feature's purpose, the happy path, and one risk in their own words after a single read. If they reach for a dictionary or ask "what does X mean", the artifact failed rule 2 — go back and expand.
+5. **Bite-size scenario.** Watch the user's first response after Stage A. Pass if they pick a single option from the menu and you reply with only that chunk. Fail if they say "너무 길어 / too long / 그만 / stop" — that means Stage A overran the 30-second TL;DR target. If they say "전부 / give me everything" you may stream remaining chunks back-to-back, but each must still be ≤8 rows or ≤5 headings.
