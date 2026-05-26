@@ -13,6 +13,25 @@ Code without intent = ritual mimicry (you copy the shape but can't extend it).
 Intent without code = aspiration (theory you can't ship).
 Side-by-side = bidirectional traceability you can act on.
 
+## Response Language Rule — applies to ALL outputs
+
+Match the user's language. If the user writes in Korean or the repo/team context is Korean, produce the learn-codebase response in Korean by default while preserving code identifiers, file paths, API names, SQL, and exact error text.
+
+Use natural Korean product/engineering terms instead of untranslated workflow labels:
+
+- `happy path` → `정상 흐름` or `기본 성공 흐름`
+- `If you only read one thing` → `하나만 읽는다면`
+- `next options` / `menu` → `다음 선택지`
+- `TL;DR` → `핵심 요약`
+- `Level` / `Stage` output labels → `단계` / `기본 응답`
+- `Map` / `Walk` / `Probe` / `Master` output labels → `지도` / `흐름 추적` / `판단 근거 점검` / `규칙 지도`
+- `trace` → `흐름 추적`
+- `entry` → `진입점`
+- `exit` → `종료 지점`
+- `error path` → `오류 흐름`
+
+Do not output English section labels such as `Level 1 Map` or `Happy Path` for Korean users unless the user explicitly asks for English.
+
 ## Plain-Speech Rule (Feynman Mode) — applies to ALL outputs
 
 If a non-technical teammate cannot follow your output, the skill failed. Every artifact this skill produces (Map, Walk, Probe, Master) MUST pass `templates/plain-speech-checklist.md` before you ship it.
@@ -23,7 +42,7 @@ The five rules (memorize):
 2. **Expand every identifier the first time it appears, in parentheses.** `FR-001` → `FR-001 (Functional Requirement 1, "what the system must do" rule #1)`. `twin_group` → `twin_group (a folder that holds the original problem and its lookalikes together)`. Do this even inside tables.
 3. **Translate the why before the what.** Each row/section opens with one short clause on *why a normal person would care*, then technical detail.
 4. **No naked acronyms, no naked code paths.** `idempotency_key` → `idempotency_key (a label that says "if you press send twice, only count once")`. `POST /api/.../approve` → `approve API (the button a reviewer clicks to say "yes, ship this candidate as a real problem")`.
-5. **Close with a 1-minute summary block** titled "If you only read one thing" — 3 sentences max, zero jargon. If you cannot write those 3 sentences, you do not yet understand the thing.
+5. **Close with a 1-minute summary block** titled in the response language, e.g. Korean `하나만 읽는다면` or English `If you only read one thing` — 3 sentences max, zero jargon. If you cannot write those 3 sentences, you do not yet understand the thing.
 
 Anti-pattern to avoid: "intent-anchored bidirectional traceability matrix between FR-009 and the materialization transaction." Rewrite as: "Did the spec say 'make a group on first approval'? Yes (FR-009). Where does the code do it? Step 9 of the approve flow. Who proves it works? The integration test that approves a candidate and checks the group exists."
 
@@ -37,8 +56,8 @@ The five rules (memorize):
 
 1. **One response = one chunk.** Default chunk size = a 30-second TL;DR (≤3 sentences) plus *one* anchored citation. Never dump multiple Levels in a single response unless the user explicitly says "전부 한 번에" / "give me everything".
 2. **TL;DR first, every time.** Even within a single Level's output, the first 3 lines must be the conclusion a reader could act on without reading the rest. Detail follows the TL;DR; never precedes it.
-3. **End every chunk with a "next options" menu — 2 to 4 choices, max.** Example: "더 볼 수 있는 것: (A) 진입점 코드 한 함수만, (B) 데이터 흐름 다이어그램, (C) 의심 라인 핀포인트, (D) 그만". Make options concrete, name an artifact each one produces, and never make the user guess what's behind option B.
-4. **Cap chunk size by surface.** Per chunk: ≤5 headings, ≤8 table rows, ≤1 fenced code block ≤30 lines. If you need more, split into a "Part 1 of N" with the menu pointing to Part 2.
+3. **End every chunk with a response-language "next options" menu — 2 to 4 choices, max.** Korean example: "다음 선택지: (A) 진입점 코드 한 함수만, (B) 데이터 흐름 다이어그램, (C) 의심 라인 핀포인트, (D) 종료". Make options concrete, name an artifact each one produces, and never make the user guess what's behind option B.
+4. **Cap chunk size by surface.** Per chunk: ≤5 headings, ≤8 table rows, ≤1 fenced code block ≤30 lines. If you need more, split with a response-language label such as Korean `N부 중 1부` or English `Part 1 of N`, with the menu pointing to the next part.
 5. **Park the rest, don't summarize it.** When you split, do not write "and there are 14 more rows below" — write "remaining 14 rows live behind option (A): say 'A' to load". Summaries of unread content waste the reader's attention.
 
 Anti-pattern to avoid: a single response containing Level 1 + Level 2 table + Level 3 decision matrix + a "what to do next" appendix. Rewrite as: Level 1 TL;DR in response #1, the user picks (A) Walk or (B) Probe in response #2, only that one expands.
@@ -120,16 +139,16 @@ Goal: one paragraph + one entry function.
 1. Read only the §0 / overview / README of the canonical intent doc.
 2. Identify the **one** user story most central to the feature.
 3. Locate **one** entry point in code (route handler, CLI command, top-level fn).
-- **Stage A (default)**: analogy line + 3-line plain summary + `entry: <file:line>` + menu (e.g. "(A) trace the happy path  (B) jump to suspected bug lines  (C) stop"). Stop here.
+- **Stage A (default)**: analogy line + 3-line plain summary + `entry: <file:line>` + menu. Korean example: "(A) 정상 흐름 추적  (B) 의심 버그 라인 보기  (C) 종료". Stop here.
 - **Stage B (on request)**: 1-minute summary block expanded with user story, key actors, scope boundary.
 - **Stage C (on request)**: link to spec section + entry function source excerpt.
 
 ### Level 2 — Walk (≤30 min, intermediate)
-Goal: one happy-path trace with 5–10 anchored stops.
+Goal: one normal-success-flow trace with 5–10 anchored stops. For Korean responses, call this `정상 흐름` or `기본 성공 흐름`.
 1. Pick the Story from Level 1.
 2. Trace it end-to-end in code.
 3. Fill the side-by-side table (see `templates/sidebyside.md`) — every row must have a populated "What this means (plain)" cell.
-- **Stage A (default)**: 3-line trace summary + first 3 rows of the table (entry, midpoint, exit) + menu ("(A) full 5–10 row table  (B) error path  (C) data shape  (D) stop"). Stop here.
+- **Stage A (default)**: 3-line trace summary + first 3 rows of the table (entry, midpoint, exit) + menu. Korean example: "(A) 전체 5~10행 흐름표  (B) 오류 흐름  (C) 데이터 모양  (D) 종료". Stop here.
 - **Stage B (on request)**: the full table, capped at 8 rows per chunk; split if longer with a "Part 2 of N" menu.
 - **Stage C (on request)**: error paths, alternative flows, or specific row deep-dives one at a time.
 
@@ -138,7 +157,7 @@ Goal: every decision → enforcement.
 1. Read all `Clarifications` / ADRs / `research.md` Phase-0 sections.
 2. For each decision, find the code that enforces it and the test that protects it.
 3. Record the **rejected alternatives** and why.
-- **Stage A (default)**: list the 3 decisions most likely to surprise the reader, one plain sentence each + menu ("(A) full decision matrix  (B) one decision's enforcement code  (C) rejected alternatives  (D) stop"). Stop here.
+- **Stage A (default)**: list the 3 decisions most likely to surprise the reader, one plain sentence each + menu. Korean example: "(A) 전체 결정표  (B) 결정 하나의 강제 코드  (C) 제외한 대안  (D) 종료". Stop here.
 - **Stage B (on request)**: `decisions.md` matrix in chunks of ≤8 rows.
 - **Stage C (on request)**: per-decision deep dive with citations and rejected alternatives.
 
@@ -147,7 +166,7 @@ Goal: invariants and seams.
 1. Identify domain invariants (Constitution, contracts, schemas, type signatures).
 2. Find their guardians (validators, schema checks, runtime asserts, property tests).
 3. Map seams between bounded contexts (where one module's invariants end and another's begin).
-- **Stage A (default)**: name the top 3 invariants in plain language + one-line guardian for each + menu ("(A) full invariant map  (B) seam diagram  (C) blast-radius of changing invariant X  (D) stop"). Stop here.
+- **Stage A (default)**: name the top 3 invariants in plain language + one-line guardian for each + menu. Korean example: "(A) 전체 불변 규칙 지도  (B) 경계 다이어그램  (C) 특정 규칙 변경 영향  (D) 종료". Stop here.
 - **Stage B (on request)**: `invariants.md` with guardians, one section at a time.
 - **Stage C (on request)**: seam diagram + cross-context contract details on the specific seam asked for.
 
@@ -156,7 +175,7 @@ Goal: invariants and seams.
 | Symptom | Use level | Output artifact |
 |---|---|---|
 | "What does this feature even do?" | 1 | 3-line map |
-| "How does the happy path flow?" | 2 | Walk table |
+| "How does the normal success flow work?" / "정상 흐름은 어떻게 이어지나?" | 2 | Walk table |
 | "Why is it built this way?" | 3 | Decision matrix |
 | "What will break if I change X?" | 4 | Invariant map |
 
@@ -206,5 +225,5 @@ Three scenarios to verify the skill works for you. If you (or another agent) can
 1. **Onboarding scenario.** Given a repo with `docs/<NNN>/spec.md` and a separate code repo, produce a Level-1 Map in 5 minutes. Pass if you can name the central User Story and one entry function.
 2. **PR-review scenario.** Given an AI-generated PR with no description, run the **Reverse** direction to produce a Level-2 Walk citing which spec sections it claims to implement. Pass if you flag at least one drift.
 3. **Change-impact scenario.** Given a request to alter behavior X, produce a Level-4 invariant map listing every guardian that would need to be updated. Pass if you locate every test that would change colour.
-4. **Plain-speech scenario.** Hand any artifact this skill produced to someone outside the project (a sibling, a non-engineer friend, a brand-new hire on day one). Pass if they can paraphrase the feature's purpose, the happy path, and one risk in their own words after a single read. If they reach for a dictionary or ask "what does X mean", the artifact failed rule 2 — go back and expand.
+4. **Plain-speech scenario.** Hand any artifact this skill produced to someone outside the project (a sibling, a non-engineer friend, a brand-new hire on day one). Pass if they can paraphrase the feature's purpose, the normal flow, and one risk in their own words after a single read. If they reach for a dictionary or ask "what does X mean", the artifact failed rule 2 — go back and expand.
 5. **Bite-size scenario.** Watch the user's first response after Stage A. Pass if they pick a single option from the menu and you reply with only that chunk. Fail if they say "너무 길어 / too long / 그만 / stop" — that means Stage A overran the 30-second TL;DR target. If they say "전부 / give me everything" you may stream remaining chunks back-to-back, but each must still be ≤8 rows or ≤5 headings.
