@@ -1,6 +1,6 @@
 ---
 name: learn-codebase
-description: Use when learning a codebase another agent (human or AI) has built, reviewing an AI-generated PR against a spec, onboarding to a single feature mid-stream, planning a change to behavior whose blast radius you do not yet know, or diagnosing suspected spec-versus-code drift. Applies whether intent docs and implementation live in the same repo or in separate planning + code repos.
+description: learn-codebase — intent-anchored code reading. Use when learning unfamiliar code, reviewing AI PRs, or spotting drift.
 ---
 
 # learn-codebase — Intent-Anchored Reading

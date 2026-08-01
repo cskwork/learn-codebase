@@ -1,6 +1,6 @@
 {
   "name": "learn-codebase",
   "version": "0.1.0",
-  "description": "Use when learning a codebase another agent (human or AI) has built, reviewing an AI-generated PR against a spec,...",
+  "description": "learn-codebase \u2014 intent-anchored code reading. Use when learning unfamiliar code, reviewing AI PRs, or spotting drift.",
   "contextFileName": "GEMINI.md"
 }

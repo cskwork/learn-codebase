@@ -1,14 +1,14 @@
 {
   "$schema": "https://www.schemastore.org/claude-code-marketplace.json",
   "name": "learn-codebase",
-  "description": "Use when learning a codebase another agent (human or AI) has built, reviewing an AI-generated PR against a spec, onboard",
+  "description": "learn-codebase \u2014 intent-anchored code reading. Use when learning unfamiliar code, reviewing AI PRs, or spotting drift.",
   "owner": {
     "name": "cskwork"
   },
   "plugins": [
     {
       "name": "learn-codebase",
-      "description": "Use when learning a codebase another agent (human or AI) has built, reviewing an AI-generated PR against a spec, onboard",
+      "description": "learn-codebase \u2014 intent-anchored code reading. Use when learning unfamiliar code, reviewing AI PRs, or spotting drift.",
       "source": "./",
       "category": "productivity"
     }
