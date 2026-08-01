@@ -1,0 +1,16 @@
+{
+  "$schema": "https://www.schemastore.org/claude-code-marketplace.json",
+  "name": "learn-codebase",
+  "description": "Use when learning a codebase another agent (human or AI) has built, reviewing an AI-generated PR against a spec, onboard",
+  "owner": {
+    "name": "cskwork"
+  },
+  "plugins": [
+    {
+      "name": "learn-codebase",
+      "description": "Use when learning a codebase another agent (human or AI) has built, reviewing an AI-generated PR against a spec, onboard",
+      "source": "./",
+      "category": "productivity"
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "name": "learn-codebase",
+  "version": "0.1.0",
+  "description": "Use when learning a codebase another agent (human or AI) has built, reviewing an AI-generated PR against a spec, onboarding to a single feature mid-stream, planning a change to behavior whose blast radius you do not yet know, or diagnosing suspected spec-versus-code drift. Applies whether intent docs and implementation live in the same repo or in separate planning + code repos.",
+  "author": {
+    "name": "cskwork",
+    "url": "https://github.com/cskwork"
+  },
+  "homepage": "https://github.com/cskwork/learn-codebase",
+  "repository": "https://github.com/cskwork/learn-codebase",
+  "license": "MIT",
+  "keywords": [
+    "learn-codebase",
+    "skill",
+    "claude-code",
+    "codex"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Learn Codebase",
+    "shortDescription": "Use when learning a codebase another agent (human or AI) has built, reviewing an",
+    "longDescription": "Use when learning a codebase another agent (human or AI) has built, reviewing an AI-generated PR against a spec, onboarding to a single feature mid-stream, planning a change to behavior whose blast radius you do not yet know, or diagnosing suspected spec-versus-code drift. Applies whether intent docs and implementation live in the same repo or in separate planning + code repos.",
+    "developerName": "cskwork",
+    "category": "Productivity",
+    "capabilities": [
+      "Instructions"
+    ],
+    "websiteURL": "https://github.com/cskwork/learn-codebase",
+    "defaultPrompt": [
+      "Use learn-codebase for this task."
+    ],
+    "brandColor": "#2563EB"
+  }
+}
