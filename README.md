@@ -1,3 +1,5 @@
+<p align="center"><img src="logo.png" width="120" alt="logo" /></p>
+
 # learn-codebase
 
 > *a collection of Claude Code skills for understanding code another agent (human or AI) has written*
