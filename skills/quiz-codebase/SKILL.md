@@ -1,6 +1,6 @@
 ---
 name: quiz-codebase
-description: Use when the user wants to be quizzed on a codebase to verify their own understanding of logical flow, domain rules, invariants, or design decisions — instead of being told. Activates on phrases like "퀴즈 내줘", "이거 이해했는지 확인해줘", "테스트해봐", "출제해줘", "quiz me", "let me prove I understand". Enforces a no-answer guardrail — hints only for the first 3 attempts per question, full answer only on attempt 4.
+description: Socratic quizzing on a codebase — the user proves their own grasp of logical flow, domain rules, invariants, or design decisions instead of being told. Use when the user asks to be quizzed ("퀴즈 내줘", "quiz me"), or wants their understanding checked before a PR review or an onboarding milestone ("이해했는지 확인해줘").
 ---
 
 # quiz-codebase — Socratic Quizzing for Codebase Understanding
@@ -73,7 +73,7 @@ Bias toward Level 2–3 — they expose the most useful gaps.
 | 3 | **Scaffold** | fill-in-the-blank shape: "A → ___ → C, and ___ guarantees B" | the filled-in blanks |
 | 4 | **Reveal** | full answer + 2-sentence why + follow-up probe | n/a |
 
-Plain-Speech applies to hints too — see `learn-codebase/templates/plain-speech-checklist.md`. A jargon-stuffed hint is not a hint.
+Plain-Speech applies to hints too — see `../learn-codebase/templates/plain-speech-checklist.md`. A jargon-stuffed hint is not a hint.
 
 ## Quick Reference
 

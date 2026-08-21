@@ -1,6 +1,6 @@
 ---
 name: learn-codebase
-description: learn-codebase — intent-anchored code reading. Use when learning unfamiliar code, reviewing AI PRs, or spotting drift.
+description: Intent-anchored code reading. Use when learning unfamiliar code, reviewing an AI-written PR, planning a change whose blast radius is unknown, or checking spec ↔ code drift.
 ---
 
 # learn-codebase — Intent-Anchored Reading
@@ -183,7 +183,7 @@ Goal: invariants and seams.
 
 Authority order (highest first): canonical spec docs → ADRs / Clarifications → contracts / schemas → tests → commit messages with issue refs → issue tracker / PRs → agent rule files (`CLAUDE.md`, `AGENTS.md`).
 
-Full detection patterns (forward + reverse direction) in `references/finding-intent.md`.
+Read `references/finding-intent.md` before your first Level-1 read when the canonical doc is not obvious, and whenever you run the Reverse direction.
 
 ## Common Mistakes
 
@@ -207,6 +207,7 @@ When you suspect the agent shipped something the spec didn't ask for (or vice ve
 - Every Constitution principle has a guardian (validator/schema/contract).
 - No "ghost" code patterns without intent (file an issue or write a back-fill ADR).
 - No "orphan" spec items without code (implement, descope, or move to a backlog).
+- Every Level-3 decision has a test on its *boundary*, not only on the happy path.
 
 ## Worked Example
 
@@ -220,7 +221,7 @@ When you suspect the agent shipped something the spec didn't ask for (or vice ve
 
 ## Self-Test Scenarios
 
-Three scenarios to verify the skill works for you. If you (or another agent) can't complete these from the skill alone, the skill has a gap — file an issue.
+Five scenarios to verify the skill works for you. If you (or another agent) can't complete these from the skill alone, the skill has a gap — file an issue.
 
 1. **Onboarding scenario.** Given a repo with `docs/<NNN>/spec.md` and a separate code repo, produce a Level-1 Map in 5 minutes. Pass if you can name the central User Story and one entry function.
 2. **PR-review scenario.** Given an AI-generated PR with no description, run the **Reverse** direction to produce a Level-2 Walk citing which spec sections it claims to implement. Pass if you flag at least one drift.
