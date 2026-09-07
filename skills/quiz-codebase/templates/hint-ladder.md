@@ -8,7 +8,7 @@
 
 Level: 1 Map | 2 Walk | 3 Probe | 4 Master
 
-## Canonical answer (PRIVATE — never shown before attempt 4)
+## Canonical answer (PRIVATE — reveal at attempt 4 or when the user asks)
 
 `<full answer in 1–3 sentences, with file:line citations and any required concept words>`
 
@@ -66,7 +66,7 @@ Self-check:
 
 ---
 
-## Hint 4 — Reveal (issued after attempt 4, or on confirmed "그냥 답 알려줘")
+## Hint 4 — Reveal (issued after attempt 4, or on an explicit "그냥 답 알려줘")
 
 > **Answer:** `<canonical answer with file:line>`
 >

@@ -2,7 +2,7 @@
 
 Stop at the level your task actually needs. Going deeper is not virtue; it's procrastination.
 
-> **Gate for every Level**: the output must pass `templates/plain-speech-checklist.md` (analogy lead, expanded identifiers, why-before-what, jargon-free conclusion, "If you only read one thing" close). Do not mark a Level complete without that pass.
+> Review substantial output with `templates/plain-speech-checklist.md`; adapt detail to the user and requested depth.
 
 ## Level 1 — Map (≤5 min)
 - [ ] Found canonical intent doc (`spec.md` / `README.md` / `RFC*.md`)
@@ -46,4 +46,4 @@ Stop at the level your task actually needs. Going deeper is not virtue; it's pro
 
 - The task no longer requires deeper reading → stop.
 - You've spent more than 2× the level's budget → stop, re-scope, or hand off.
-- The intent docs are insufficient to advance → pause and write/repair them (or use a discovery skill).
+- Intent docs are insufficient → explain observed code behavior and mark the missing intent; do not invent or repair documents without a request.

@@ -9,7 +9,7 @@ This repo bundles paired skills that cover the two complementary halves of grokk
 | Skill | Direction | What it produces | When to reach for it |
 |---|---|---|---|
 | [`learn-codebase`](./skills/learn-codebase/) | code → understanding | intent-anchored reading artifacts (Map / Walk / Probe / Master) with a Feynman-style plain-speech gate on every output | "I need to grok feature X before I touch it" |
-| [`quiz-codebase`](./skills/quiz-codebase/) | understanding → verification | Socratic questions with a 3-rung hint ladder; the answer is never revealed before attempt 4 | "I think I get it — prove it to me" |
+| [`quiz-codebase`](./skills/quiz-codebase/) | understanding → verification | Socratic questions with a 3-rung hint ladder; answers reveal at attempt 4 or on request | "I think I get it — prove it to me" |
 
 > **Code without intent = ritual mimicry.**
 > **Intent without code = aspiration.**
@@ -39,9 +39,9 @@ See [`skills/learn-codebase/SKILL.md`](./skills/learn-codebase/SKILL.md).
 
 The inverse of learn-codebase. The agent becomes an **examiner**, not a tutor:
 
-- For every question, attempts **1, 2, 3** earn hints only — never the answer.
+- By default, incorrect attempts **1, 2, 3** receive hints; an explicit answer request receives the answer.
 - Attempt **4** reveals the full answer with a 2-sentence "why" and a follow-up probe.
-- The hint ladder (Orient → Narrow → Scaffold → Reveal) is non-negotiable; skipping rungs destroys the learning signal.
+- The default hint ladder is Orient → Narrow → Scaffold → Reveal; the user can change pace or stop.
 
 Question types mirror learn-codebase Levels (Map / Walk / Probe / Master), with bias toward Level 2–3 because that's where useful gaps live.
 
@@ -164,3 +164,14 @@ Issues and PRs welcome. If either skill fails on a real codebase you tried it on
 - the missing piece in the skill or templates.
 
 The skills' quality is measured by whether a fresh agent can apply them to a new codebase without prior context. Reports of failure on real codebases make them better.
+
+## Maintained skill source
+
+Edit `skills/` only. The existing Cursor package is a generated distribution:
+
+```bash
+python3 scripts/sync-cursor.py
+python3 scripts/sync-cursor.py --check
+```
+
+Keep generated files committed so direct Cursor installation remains self-contained.

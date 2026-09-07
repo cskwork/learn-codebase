@@ -1,110 +1,49 @@
 ---
 name: quiz-codebase
-description: Socratic quizzing on a codebase — the user proves their own grasp of logical flow, domain rules, invariants, or design decisions instead of being told. Use when the user asks to be quizzed ("퀴즈 내줘", "quiz me"), or wants their understanding checked before a PR review or an onboarding milestone ("이해했는지 확인해줘").
+description: Quiz the user on source-backed code flows, domain rules, invariants, and design decisions. Use when they ask to be quizzed or to check their understanding; ordinary requests for an explanation should be answered directly.
 ---
 
-# quiz-codebase — Socratic Quizzing for Codebase Understanding
+# quiz-codebase — Socratic Quizzing
 
-## Overview
+Build questions from the actual code and test understanding with a graduated hint ladder. This is an opt-in learning mode: honor a request to reveal an answer, change the format, or stop without requiring repeated confirmation.
 
-You are the **examiner**, not the tutor. The user chose to be quizzed — your job is to test, then escort them toward the answer through a controlled hint ladder. **Never** hand over the answer before attempt 4.
+## Prepare and conduct
 
-This skill is the inverse of learn-codebase:
-- learn-codebase → you read code, produce understanding artifacts *for* the user.
-- quiz-codebase → you read code, produce questions that force the user to articulate understanding.
+1. Use the named feature/module and requested depth. Ask only for missing scope that affects the quiz; default to five questions when no count is given.
+2. Read the relevant source, intent documents, and tests to build a private answer key with file:line citations. Distinguish documented rationale from inference. No sibling skill is required.
+3. Prepare each question's answer and hints using [templates/hint-ladder.md](templates/hint-ladder.md) before asking it. Keep the key private until a reveal is appropriate.
+4. Ask one question at a time and wait for the user's attempt. A correct answer needs no remaining hint rungs; acknowledge it briefly and move on or ask a useful why probe.
+5. Record supported observations in [templates/quiz-ledger.md](templates/quiz-ledger.md). Close with demonstrated strengths, specific gaps, and source links. Do not infer mastery from having explained an answer.
 
-## The Iron Rule — No Answer Before Attempt 4
+## Question depth
 
-For every question:
-- Attempts **1, 2, 3** → hint only (see Hint Ladder). Never the answer.
-- Attempt **4** → full answer + 2-sentence "why" + a follow-up probe.
-
-**Letter and spirit are equivalent.** A hint that names the missing function, the missing line, or the load-bearing concept word IS the answer. A hint the user can echo verbatim as the answer IS the answer.
-
-### Red Flags — STOP and rewrite the hint
-
-| Thought | What it really is | Fix |
-|---|---|---|
-| "They're close, I'll just confirm." | Confirmation = answer. | Hint at the next-smaller question instead. |
-| "Naming the function will save them time." | That IS the answer. | Hint the file or the responsibility, not the symbol. |
-| "I'll just explain the concept." | If your explanation lets them write the answer verbatim, it's the answer. | Define the concept's *category*, not its content. |
-| "They've struggled enough — be kind." | Empathy ≠ exam integrity. Struggle is the learning. | Stay in the ladder. Attempt 4 will arrive. |
-| "It's a small question, one hint is enough." | The ladder is non-negotiable. | 3 hints, then reveal. Always. |
-| "I'll skip ahead to Hint 3, it's faster." | Skipping rungs destroys signal — you no longer know what they grasped. | One rung per attempt. |
-| "사용자가 모국어가 한국어니까 한 번 더 풀어 써줄게." | Translation ≠ expansion. | Same hint, different language. Do not add content. |
-
-## When to Use
-
-- "이 모듈 정말 이해했는지 검증하고 싶어."
-- "내일 PR 리뷰 들어가야 하는데 자신이 없어."
-- "온보딩 중인데 학습 진도 점검해줘."
-- "이 흐름 외웠는지 확인해줘."
-
-When **not** to use:
-- User wants to *learn*, not be tested → use `learn-codebase`.
-- User explicitly asks for the answer up front → answer them; this skill is opt-in.
-- No code exists yet → use a design/brainstorming skill.
-
-## Examiner Workflow
-
-1. **Scope** — ask: target feature/file/module, level (1–4), question count (default 5).
-2. **Read the source** — internally run a `learn-codebase` Level-2 Walk to build *your* answer key. The user never sees the key.
-3. **Pre-draft** — for each question, fill `templates/hint-ladder.md` BEFORE asking. Pre-drafting prevents leakage under pressure.
-4. **Conduct** — one question per response. Wait for the user's attempt before issuing the next hint.
-5. **Score & summarize** — close the session with the `templates/quiz-ledger.md` gap report.
-
-## Question Types (mirror learn-codebase Levels)
-
-| Level | Style | Example |
-|---|---|---|
-| 1 — Map | one-sentence purpose | "이 endpoint가 존재하는 이유를 한 문장으로?" |
-| 2 — Walk | ordered steps on the happy path | "approve API 호출 시 DB write 직전까지 어떤 검증이 순서대로 일어나?" |
-| 3 — Probe | why X over Y, what would break | "왜 retry를 클라이언트가 아닌 서버에서 처리하지?" |
-| 4 — Master | invariant + its guardian + which test goes red | "twin_group이 한 번만 생성됨을 보장하는 가드는 무엇이고, 깨지면 어느 테스트가 실패하지?" |
-
-Bias toward Level 2–3 — they expose the most useful gaps.
-
-## The Hint Ladder
-
-| Attempt | Rung | MAY contain | MUST NOT contain |
-|---|---|---|---|
-| 1 | **Orient** | area / folder / layer / responsibility | function name, symbol, exact line, load-bearing concept word |
-| 2 | **Narrow** | specific file OR category of the missing concept | function name, paraphrase the user could echo |
-| 3 | **Scaffold** | fill-in-the-blank shape: "A → ___ → C, and ___ guarantees B" | the filled-in blanks |
-| 4 | **Reveal** | full answer + 2-sentence why + follow-up probe | n/a |
-
-Plain-Speech applies to hints too — see `../learn-codebase/templates/plain-speech-checklist.md`. A jargon-stuffed hint is not a hint.
-
-## Quick Reference
-
-| Situation | Action |
+| Level | What to test |
 |---|---|
-| Correct answer | One-line acknowledge → follow-up "why" probe → next question |
-| Partial answer | Score what's right; hint at the *next* rung for the missing part only |
-| "그냥 답 알려줘" before attempt 4 | Confirm once: "정말 답으로 넘어갈까요? 학습 효과는 떨어집니다." If yes → reveal + move on |
-| "힌트 더 줘" before attempt 4 | OK to *rephrase* the current rung. Do NOT escalate without a new attempt |
-| User silent | Re-issue the current question + current hint. Add nothing new |
-| User keeps guessing same wrong thing | Note in ledger; on attempt 4 reveal include "왜 X가 답이 아닌지" |
+| 1 — Map | Purpose and scope of a feature or entry point |
+| 2 — Walk | Ordered steps, state changes, and failure branches |
+| 3 — Probe | Design decisions, enforcement, and rejected alternatives |
+| 4 — Master | Invariants, their guards, and consequences of a change |
 
-## Templates
+Prefer flow and decision questions over symbol trivia unless the user requests otherwise.
 
-- `templates/hint-ladder.md` — pre-draft worksheet (mandatory, fill BEFORE asking).
-- `templates/quiz-ledger.md` — per-session log + closing gap report.
+## Default hint ladder
 
-## Common Mistakes
+For an incorrect or partial answer, target only the missing part. Do not put the answer into a hint the user can simply echo.
 
-| Mistake | Goes wrong | Fix |
+| After attempt | Hint | Avoid |
 |---|---|---|
-| Drafting hints on the fly | You leak the answer under pressure | Pre-draft all 3 hints + reveal first |
-| Quizzing without reading code first | Questions become trivia, not understanding | Run a Level-2 Walk internally first |
-| Repeating the same hint forever | User stalls, no progress signal | One rung per attempt, reveal at 4 |
-| Praising every answer ("좋아요!") | User can't tell strong from weak grasp | Score honestly — partial = "부분 정답, 핵심 누락: X" |
-| Jargon-heavy hint | Hint becomes harder than the question | Plain-speech the hint |
-| Skipping the closing summary | User leaves not knowing what to study | End every session with the gap report |
+| 1 | Orient to an area, layer, or responsibility | Missing function, exact line, or answer-bearing concept |
+| 2 | Narrow to a file or concept category | Naming or paraphrasing the answer |
+| 3 | Scaffold the flow with a meaningful blank | Filling the blank |
+| 4 | Reveal the cited answer and concise reasoning | Claiming the reveal proves understanding |
 
-## Self-Test Scenarios
+A request for another hint may rephrase the current rung; adapt if the user requests a different pace. An explicit “그냥 답 알려줘” or equivalent overrides the ladder: give the answer immediately. Do not resend questions merely because the user is silent.
 
-1. **Discipline scenario.** A subagent role-plays a frustrated user demanding the answer at attempt 2 ("아 그냥 답 알려줘", "시간 없어"). Pass if the examiner stays on the ladder and does NOT reveal.
-2. **Leak scenario.** Take Hint 1 of any question in isolation. Pass if a fresh reader CANNOT write the canonical answer from it alone. If they can, the hint is an answer — rewrite.
-3. **Plain-speech scenario.** Hand Hint 3 of any question to a non-expert. Pass if they understand the *shape* of what's missing without lookup.
-4. **Gap-report scenario.** After a 5-question quiz with 2 wrong, the closing summary must name the 2 specific topics to re-read with `file:line` citations.
+Use clear language matched to the user; keep hints understandable without adding answer content during translation. If the source cannot support a reliable answer, replace the question or mark the uncertainty.
+
+## Review cases
+
+- An explicit request for the answer on attempt 2 receives the answer without another approval question.
+- A hint narrows the search without disclosing the missing answer.
+- A correct first answer advances without forcing three more attempts.
+- A completed quiz identifies specific observed gaps with source citations; it does not turn uncertainty into a readiness claim.

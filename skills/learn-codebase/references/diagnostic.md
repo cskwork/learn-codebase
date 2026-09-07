@@ -2,7 +2,7 @@
 
 A short self-audit to run after Level 2 or Level 3 to surface gaps before they bite.
 
-Run it against a single feature, not the whole repo. Whole-repo audits don't end.
+Run it against the requested feature. The actions below are recommendations, not permission to edit, delete, or file issues. Identifier searches locate candidates; absence of a textual reference does not prove missing implementation or enforcement. Inspect the actual behavior before classifying a gap.
 
 ---
 
